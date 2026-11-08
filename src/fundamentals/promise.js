@@ -44,21 +44,73 @@ function loadImage(src) {
   });
 }
 
-function initHero() {
-  // ここを自分で実装
-  const $target = document.querySelector('.p-hero__image img');
-  const $error = document.querySelector('.p-hero__error');
-  loadImage($target.src)
-    .then(() => {
-      gsap.to($target, {
-        opacity: 1,
-        duration: 1
-      });
-    })
-    .catch((error) => {
-      $error.removeAttribute('hidden');
-      console.error(error);
-    });
-}
+// function initHero() {
+//   // ここを自分で実装
+//   const $target = document.querySelector(".p-hero__image img");
+//   const $error = document.querySelector(".p-hero__error");
+//   loadImage($target.src)
+//     .then(() => {
+//       gsap.to($target, {
+//         opacity: 1,
+//         duration: 1,
+//       });
+//     })
+//     .catch((error) => {
+//       $error.removeAttribute("hidden");
+//       console.error(error);
+//     });
+// }
 
-initHero();
+// initHero();
+
+// function initHero() {
+//   const $target = document.querySelector(".p-hero__image img");
+//   const $error = document.querySelector(".p-hero__error");
+
+//   loadImage($target.src)
+//     .then(
+//       (success) => {
+//         gsap.to($target, {
+//           opacity: 1,
+//           duration: 1,
+//         });
+//       },
+//       (failure) => {
+//         $error.hidden = false;
+//         console.error(failure);
+//       },
+//     )
+//     .catch((error) => {
+//       $error.hidden = false;
+//       console.error(error);
+//     });
+// }
+
+Promise.resolve(10)
+  .then((value) => {
+    console.log('A:', value);
+    return value * 2;
+  })
+  .then((value) => {
+    console.log('B:', value);
+    throw new Error('失敗');
+  })
+  .catch((error) => {
+    console.log('C:', error.message);
+    return 50;
+  })
+  .then((value) => {
+    console.log('D:', value);
+    throw new Error('再失敗');
+  })
+  .then(
+    (value) => {
+      console.log('E:', value);
+    },
+    (error) => {
+      console.log('F:', error.message);
+    }
+  )
+  .catch((error) => {
+    console.log('G:', error.message);
+  });
