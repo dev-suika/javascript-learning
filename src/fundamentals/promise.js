@@ -86,31 +86,83 @@ function loadImage(src) {
 //     });
 // }
 
-Promise.resolve(10)
-  .then((value) => {
-    console.log('A:', value);
-    return value * 2;
-  })
-  .then((value) => {
-    console.log('B:', value);
-    throw new Error('失敗');
-  })
-  .catch((error) => {
-    console.log('C:', error.message);
-    return 50;
-  })
-  .then((value) => {
-    console.log('D:', value);
-    throw new Error('再失敗');
-  })
-  .then(
-    (value) => {
-      console.log('E:', value);
-    },
-    (error) => {
-      console.log('F:', error.message);
-    }
-  )
-  .catch((error) => {
-    console.log('G:', error.message);
+// Promise.resolve(10)
+//   .then((value) => {
+//     console.log("A:", value);
+//     return value * 2;
+//   })
+//   .then((value) => {
+//     console.log("B:", value);
+//     throw new Error("失敗");
+//   })
+//   .catch((error) => {
+//     console.log("C:", error.message);
+//     return 50;
+//   })
+//   .then((value) => {
+//     console.log("D:", value);
+//     throw new Error("再失敗");
+//   })
+//   .then(
+//     (value) => {
+//       console.log("E:", value);
+//     },
+//     (error) => {
+//       console.log("F:", error.message);
+//     },
+//   )
+//   .catch((error) => {
+//     console.log("G:", error.message);
+//  });
+
+// async / await
+async function getUser() {
+  return Promise.resolve({
+    id: 1,
+    name: "Taro",
   });
+}
+
+async function showUser() {
+  try {
+    const user = await getUser();
+    console.log("ユーザー名:", user.name);
+  } catch (error) {
+    console.error("取得失敗:", error);
+  }
+}
+
+showUser();
+
+function initHero() {
+  const $target = document.querySelector('.p-hero__image img');
+  const $error = document.querySelector('.p-hero__error');
+
+  loadImage($target.src)
+    .then(() => {
+      gsap.to($target, {
+        opacity: 1,
+        duration: 1
+      });
+    })
+    .catch((error) => {
+      $error.hidden = false;
+      console.error(error);
+    });
+}
+
+async function initHero() {
+  const $target = document.querySelector('.p-hero__image img');
+  const $error = document.querySelector('.p-hero__error');
+
+  try {
+    const target = await loadImage($target.src);
+    gsap.to($target, {
+      opacity: 1,
+      duration: 1,
+    });
+  } catch (error) {
+    $error.hidden = false;
+    console.error(error);
+  }
+}
